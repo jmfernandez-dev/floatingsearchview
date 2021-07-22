@@ -57,6 +57,7 @@ import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -64,6 +65,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.arlib.floatingsearchview.R;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
@@ -77,8 +79,8 @@ import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
 
 /**
  * A search UI widget that implements a floating search box also called persistent
@@ -181,7 +183,7 @@ public class FloatingSearchView extends FrameLayout {
     private int mBackgroundColor;
     private boolean mSkipQueryFocusChangeEvent;
     private boolean mSkipTextChangeEvent;
-    private View.OnClickListener mLeftMenuClickListener;
+    private OnClickListener mLeftMenuClickListener;
 
     private View mDivider;
     private int mDividerColor;
@@ -200,7 +202,7 @@ public class FloatingSearchView extends FrameLayout {
     private OnSuggestionsListHeightChanged mOnSuggestionsListHeightChanged;
     private long mSuggestionSectionAnimDuration;
     private OnClearSearchActionListener mOnClearSearchActionListener;
-
+    private boolean sugerenciaVisible = true;
     //An interface for implementing a listener that will get notified when the suggestions
     //section's height is set. This is to be used internally only.
     private interface OnSuggestionSecHeightSetListener {
@@ -212,7 +214,6 @@ public class FloatingSearchView extends FrameLayout {
     /**
      * Interface for implementing a listener to listen to
      * changes in the suggestion list height that occur when the list is expands/shrinks
-     * following calls to {@link FloatingSearchView#swapSuggestions(List)}
      */
     public interface OnSuggestionsListHeightChanged {
 
@@ -255,7 +256,6 @@ public class FloatingSearchView extends FrameLayout {
          * as a result of pressing search key in the keyboard.
          * <p/>
          * Note: This will only get called if
-         * {@link FloatingSearchView#setShowSearchKey(boolean)}} is set to true.
          *
          * @param currentQuery the text that is currently set in the query TextView
          */
@@ -463,7 +463,8 @@ public class FloatingSearchView extends FrameLayout {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.FloatingSearchView);
 
         try {
-
+            mSearchInput.setFocusable(true);
+            mSearchInput.setFocusableInTouchMode(true);
             int searchBarWidth = a.getDimensionPixelSize(
                     R.styleable.FloatingSearchView_floatingSearch_searchBarWidth,
                     ViewGroup.LayoutParams.MATCH_PARENT);
@@ -638,11 +639,13 @@ public class FloatingSearchView extends FrameLayout {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
 
-                if (mSkipQueryFocusChangeEvent) {
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mSearchInput, InputMethodManager.SHOW_IMPLICIT);
+                /*if (mSkipQueryFocusChangeEvent) {
                     mSkipQueryFocusChangeEvent = false;
                 } else if (hasFocus != mIsFocused) {
                     setSearchFocusedInternal(hasFocus);
-                }
+                }*/
             }
         });
 
@@ -676,7 +679,11 @@ public class FloatingSearchView extends FrameLayout {
             @Override
             public void onClick(View v) {
 
-                if (isSearchBarFocused()) {
+                mSearchInput.requestFocus();
+                setSearchFocusedInternal(!sugerenciaVisible);
+                toggleLeftMenu();
+
+                /*if (isSearchBarFocused()) {
                     setSearchFocusedInternal(false);
                 } else {
                     switch (mLeftActionMode) {
@@ -699,7 +706,7 @@ public class FloatingSearchView extends FrameLayout {
                             //do nothing
                             break;
                     }
-                }
+                }*/
 
             }
         });
@@ -1179,8 +1186,8 @@ public class FloatingSearchView extends FrameLayout {
      *                  clicked.
      */
     public void setSearchFocusable(boolean focusable) {
-        mSearchInput.setFocusable(focusable);
-        mSearchInput.setFocusableInTouchMode(focusable);
+        mSearchInput.setFocusable(true);
+        mSearchInput.setFocusableInTouchMode(true);
     }
 
     /**
@@ -1481,7 +1488,7 @@ public class FloatingSearchView extends FrameLayout {
             }
             handleOnVisibleMenuItemsWidthChanged(0);//this must be called before  mMenuView.hideIfRoomItems(...)
             mMenuView.hideIfRoomItems(true);
-            transitionInLeftSection(true);
+            //transitionInLeftSection(true);
             Util.showSoftKeyboard(getContext(), mSearchInput);
             if (mMenuOpen) {
                 closeMenu(false);
@@ -1506,7 +1513,7 @@ public class FloatingSearchView extends FrameLayout {
             }
             handleOnVisibleMenuItemsWidthChanged(0);//this must be called before  mMenuView.hideIfRoomItems(...)
             mMenuView.showIfRoomItems(true);
-            transitionOutLeftSection(true);
+            //transitionOutLeftSection(true);
             mClearButton.setVisibility(View.GONE);
             if (mHostActivity != null) {
                 Util.closeSoftKeyboard(mHostActivity);
@@ -1521,6 +1528,7 @@ public class FloatingSearchView extends FrameLayout {
             }
         }
 
+        mSearchInput.requestFocus();
         //if we don't have focus, we want to allow the client's views below our invisible
         //screen-covering view to handle touches
         mSuggestionsSection.setEnabled(focused);

@@ -755,9 +755,9 @@ public class FloatingSearchView extends FrameLayout {
      *
      * @param onMenuClickListener
      */
-    public void setOnMenuClickListener(OnLeftMenuClickListener onMenuClickListener) {
-        mOnMenuClickListener = onMenuClickListener;
-    }
+//    public void setOnMenuClickListener(OnLeftMenuClickListener onMenuClickListener) {
+//        mOnMenuClickListener = onMenuClickListener;
+//    }
 
     /**
      * Sets the clear button's color.

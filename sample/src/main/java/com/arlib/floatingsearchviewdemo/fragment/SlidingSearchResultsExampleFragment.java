@@ -32,7 +32,7 @@ import java.util.List;
 public class SlidingSearchResultsExampleFragment extends BaseExampleFragment {
     private final String TAG = "BlankFragment";
 
-    public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
+    //public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
 
     private FloatingSearchView mSearchView;
 

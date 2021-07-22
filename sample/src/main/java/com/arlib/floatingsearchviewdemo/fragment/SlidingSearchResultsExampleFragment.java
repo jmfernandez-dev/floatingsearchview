@@ -65,79 +65,79 @@ public class SlidingSearchResultsExampleFragment extends BaseExampleFragment {
     }
 
     private void setupFloatingSearch() {
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+//        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+//
+//            @Override
+//            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+//
+//                if (!oldQuery.equals("") && newQuery.equals("")) {
+//                    mSearchView.clearSuggestions();
+//                } else {
+//
+//                    //this shows the top left circular progress
+//                    //you can call it where ever you want, but
+//                    //it makes sense to do it when loading something in
+//                    //the background.
+//                    mSearchView.showProgress();
+//
+//                    //simulates a query call to a data source
+//                    //with a new query.
+//                    DataHelper.findSuggestions(getActivity(), newQuery, 5,
+//                            FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
+//
+//                                @Override
+//                                public void onResults(List<ColorSuggestion> results) {
+//
+//                                    //this will swap the data and
+//                                    //render the collapse/expand animations as necessary
+//                                    mSearchView.swapSuggestions(results);
+//
+//                                    //let the users know that the background
+//                                    //process has completed
+//                                    mSearchView.hideProgress();
+//                                }
+//                            });
+//                }
+//
+//                Log.d(TAG, "onSearchTextChanged()");
+//            }
+//        });
 
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    mSearchView.clearSuggestions();
-                } else {
-
-                    //this shows the top left circular progress
-                    //you can call it where ever you want, but
-                    //it makes sense to do it when loading something in
-                    //the background.
-                    mSearchView.showProgress();
-
-                    //simulates a query call to a data source
-                    //with a new query.
-                    DataHelper.findSuggestions(getActivity(), newQuery, 5,
-                            FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
-
-                                @Override
-                                public void onResults(List<ColorSuggestion> results) {
-
-                                    //this will swap the data and
-                                    //render the collapse/expand animations as necessary
-                                    mSearchView.swapSuggestions(results);
-
-                                    //let the users know that the background
-                                    //process has completed
-                                    mSearchView.hideProgress();
-                                }
-                            });
-                }
-
-                Log.d(TAG, "onSearchTextChanged()");
-            }
-        });
-
-        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
-
-                ColorSuggestion colorSuggestion = (ColorSuggestion) searchSuggestion;
-                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
-                        new DataHelper.OnFindColorsListener() {
-
-                            @Override
-                            public void onResults(List<ColorWrapper> results) {
-                                mSearchResultsAdapter.swapData(results);
-                            }
-
-                        });
-                Log.d(TAG, "onSuggestionClicked()");
-
-                mLastQuery = searchSuggestion.getBody();
-            }
-
-            @Override
-            public void onSearchAction(String query) {
-                mLastQuery = query;
-
-                DataHelper.findColors(getActivity(), query,
-                        new DataHelper.OnFindColorsListener() {
-
-                            @Override
-                            public void onResults(List<ColorWrapper> results) {
-                                mSearchResultsAdapter.swapData(results);
-                            }
-
-                        });
-                Log.d(TAG, "onSearchAction()");
-            }
-        });
+//        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+//            @Override
+//            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+//
+//                ColorSuggestion colorSuggestion = (ColorSuggestion) searchSuggestion;
+//                DataHelper.findColors(getActivity(), colorSuggestion.getBody(),
+//                        new DataHelper.OnFindColorsListener() {
+//
+//                            @Override
+//                            public void onResults(List<ColorWrapper> results) {
+//                                mSearchResultsAdapter.swapData(results);
+//                            }
+//
+//                        });
+//                Log.d(TAG, "onSuggestionClicked()");
+//
+//                mLastQuery = searchSuggestion.getBody();
+//            }
+//
+//            @Override
+//            public void onSearchAction(String query) {
+//                mLastQuery = query;
+//
+//                DataHelper.findColors(getActivity(), query,
+//                        new DataHelper.OnFindColorsListener() {
+//
+//                            @Override
+//                            public void onResults(List<ColorWrapper> results) {
+//                                mSearchResultsAdapter.swapData(results);
+//                            }
+//
+//                        });
+//                Log.d(TAG, "onSearchAction()");
+//            }
+//        });
 
         mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
             @Override

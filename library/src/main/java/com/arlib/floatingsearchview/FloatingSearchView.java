@@ -21,6 +21,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -568,23 +569,23 @@ public class FloatingSearchView extends FrameLayout {
             }
         });
 
-        mMenuView.setMenuCallback(new MenuBuilder.Callback() {
-            @Override
-            public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
-
-                if (mActionMenuItemListener != null) {
-                    mActionMenuItemListener.onActionMenuItemSelected(item);
-                }
-
-                //todo check if we should care about this return or not
-                return false;
-            }
-
-            @Override
-            public void onMenuModeChange(MenuBuilder menu) {
-            }
-
-        });
+//        mMenuView.setMenuCallback(new MenuBuil.Callback() {
+//            @Override
+//            public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+//
+//                if (mActionMenuItemListener != null) {
+//                    mActionMenuItemListener.onActionMenuItemSelected(item);
+//                }
+//
+//                //todo check if we should care about this return or not
+//                return false;
+//            }
+//
+//            @Override
+//            public void onMenuModeChange(MenuBuilder menu) {
+//            }
+//
+//        });
 
         mMenuView.setOnVisibleWidthChanged(new MenuView.OnVisibleWidthChangedListener() {
             @Override

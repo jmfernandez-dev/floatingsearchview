@@ -1,10 +1,11 @@
 package com.arlib.floatingsearchbiew.rxbinding;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.jakewharton.rxbinding2.InitialValueObservable;
+import com.jakewharton.rxbinding4.InitialValueObservable;
 
-import io.reactivex.Observer;
-import io.reactivex.android.MainThreadDisposable;
+import io.reactivex.rxjava3.android.MainThreadDisposable;
+import io.reactivex.rxjava3.core.Observer;
+
 
 final public class QueryObservable extends InitialValueObservable<CharSequence> {
 

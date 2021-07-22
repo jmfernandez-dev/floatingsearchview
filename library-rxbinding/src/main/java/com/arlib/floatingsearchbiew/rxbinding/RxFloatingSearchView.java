@@ -4,7 +4,8 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
-import com.jakewharton.rxbinding2.InitialValueObservable;
+import com.jakewharton.rxbinding4.InitialValueObservable;
+
 
 public final class RxFloatingSearchView {
 
